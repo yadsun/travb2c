@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trav.b2c.dao.GoodsMapper">
+	<resultMap type="Goods" id="goodsDetailMap" autoMapping="true">
+		<collection property="prices" ofType="PricePolicy" javaType="ArrayList">
+			<id property="objectUid" column="price_uid"/>
+		</collection>
+	</resultMap>
+	
+	<select id="findGoodsById" parameterType="long" resultMap="goodsDetailMap">
+	select 
+		g.object_uid as 'objectUid',
+		g.is_active as 'isActive',
+		g.date_created as 'dateCreated',
+		g.created_by as 'createdBy',
+		g.date_updated as 'dateUpdated',
+		g.updated_by as 'updatedBy',
+		g.name as 'name',
+		g.title as 'title',
+		g.description as 'description',
+		p.object_uid as 'price_uid' 
+	from com_goods g 
+	left join com_price_policy p
+	on p.goods_uid=g.object_uid
+	where g.object_uid = #{id}
+	</select>
+
+	<insert id="addGoods" parameterType="Goods" flushCache="true"
+		statementType="PREPARED" timeout="20">
+		insert into 
+		com_goods(is_active, date_created, created_by, date_updated, updated_by, name, title, description) 
+		values (#{isActive}, #{dateCreated}, #{createdBy}, #{dateUpdated}, #{updatedBy}, #{name}, #{title}, #{description})
+	</insert>
+</mapper>

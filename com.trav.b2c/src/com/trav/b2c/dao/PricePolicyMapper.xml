@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trav.b2c.dao.PricePolicyMapper">
+	<select id="findPricePolicyById" parameterType="long" resultType="PricePolicy">
+		select 
+			object_uid as 'objectUid',
+			is_active as 'isActive',
+			date_created as 'dateCreated',
+			created_by as 'createdBy',
+			date_updated as 'dateUpdated',
+			updated_by as 'updatedBy',
+			name as 'name',
+			price as 'price'
+		from com_price_policy where object_uid = #{id}
+	</select>
+
+	<insert id="addPricePolicy" parameterType="PricePolicy"
+		flushCache="true" statementType="PREPARED" timeout="20">
+		insert into 
+		com_price_policy(is_active, date_created, created_by, date_updated, updated_by, name, price, goods_uid) 
+		values (#{isActive}, #{dateCreated}, #{createdBy}, #{dateUpdated}, #{updatedBy}, #{name}, #{price}, #{goodsUid})
+	</insert>
+</mapper>

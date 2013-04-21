@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trav.b2c.dao.PricePolicyMapper">
+	<select id="findUserById" parameterType="int" resultType="User">
+		select * from com_user where object_uid = #{id}
+	</select>
+
+	<insert id="addUser" parameterType="User"
+		flushCache="true" statementType="PREPARED" timeout="20">
+		insert into com_user(is_active,user_name) values (#{isActive},#{userName})
+	</insert>
+</mapper>
